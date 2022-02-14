@@ -93,5 +93,9 @@ def fit_models_on_all_datasets(model_destination: Path) -> None:
             )
 
 
+def load_saved_models(model_path):
+    return {file.name[:-3]: joblib.load(file) for file in model_path.iterdir()}
+
+
 if __name__ == "__main__":
     fit_models_on_all_datasets(MODEL_DIR)
