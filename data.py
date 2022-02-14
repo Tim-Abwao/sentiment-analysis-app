@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
@@ -35,16 +34,11 @@ class Dataset:
 
     def _split(self):
         data = self._load_file()
-        (
-            train_text,
-            self.test_text,
-            self.y_train,
-            self.y_test,
-        ) = train_test_split(
+        train_text, test_text, self.y_train, self.y_test = train_test_split(
             data["text"],
             data["label"],
             test_size=self.test_size,
             stratify=data["label"],
         )
         self.X_train = self._vectorize_dataset(train_text, refit=True)
-        self.X_test = self._vectorize_dataset(self.test_text)
+        self.X_test = self._vectorize_dataset(test_text)
