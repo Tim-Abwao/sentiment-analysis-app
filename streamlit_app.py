@@ -13,7 +13,7 @@ st.markdown(
 sample_text = st.text_area("Text Input:", max_chars=500)
 
 
-@st.cache
+@st.experimental_memo
 def get_models():
     return [load_saved_models(MODEL_DIR / source) for source in DATA_SOURCES]
 
