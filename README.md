@@ -6,7 +6,7 @@ Perform [sentiment analysis][sentiment-analysis] using the traditional [bag of w
 
 Powered by [Scikit-learn][sklearn] and [Streamlit][streamlit].
 
-![Screen cast](screencast.gif)
+[![Screen cast](screencast.gif)][live-app]
 
 The datasets used to train the models are the manually annotated samples from the publication *["From Group to Individual Labels Using Deep Features"][paper]*.
 
@@ -29,6 +29,7 @@ The datasets used to train the models are the manually annotated samples from th
         streamlit run streamlit_app.py
 
 [b-o-w]: https://en.wikipedia.org/wiki/Bag-of-words_model
+[live-app]: https://share.streamlit.io/tim-abwao/sentiment-analysis-app/main
 [paper]: https://dl.acm.org/doi/10.1145/2783258.2783380 "Dimitrios Kotzias, Misha Denil, Nando de Freitas, and Padhraic Smyth. 2015. From Group to Individual Labels Using Deep Features. In Proceedings of the 21th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '15). Association for Computing Machinery, New York, NY, USA, 597–606."
 [sentiment-analysis]: https://en.wikipedia.org/wiki/Sentiment_analysis
 [sklearn]: https://scikit-learn.org/
