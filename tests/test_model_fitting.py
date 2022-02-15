@@ -5,7 +5,7 @@ from modelling import (
     fit_models_on_all_datasets,
     load_saved_models,
     models,
-    parameters
+    parameters,
 )
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -15,6 +15,7 @@ from sklearn.svm import SVC
 
 def test_model_fitting_function(tmp_path):
     dataset = Dataset("yelp_labelled.txt")
+
     expected_model_destination = tmp_path / dataset.source
     expected_model_destination.mkdir(exist_ok=True)
 
@@ -28,8 +29,10 @@ def test_model_fitting_function(tmp_path):
     assert expected_saved_model.exists()
 
 
-def test_modell_fitting_and_loading(tmp_path):
+def test_model_fitting_and_loading(tmp_path):
     fit_models_on_all_datasets(model_destination=tmp_path)
+
+    # Test model saving
     for source in DATA_SOURCES:
         vectorizer = tmp_path / source / "vectorizer.xz"
         assert vectorizer.exists()
@@ -38,6 +41,7 @@ def test_modell_fitting_and_loading(tmp_path):
             model = tmp_path / source / f"{classifier}.xz"
             assert model.exists()
 
+    # Test model loading
     yelp_models = load_saved_models(tmp_path / "yelp")
     assert set(yelp_models.keys()) == {
         "LogisticRegression",

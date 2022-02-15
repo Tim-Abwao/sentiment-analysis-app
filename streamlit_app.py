@@ -3,29 +3,42 @@ import streamlit as st
 
 from modelling import DATA_SOURCES, MODEL_DIR, load_saved_models
 
+# Configuration
 title = "Sentiment Analysis App"
 st.set_page_config(page_title=title)
+
+# Introduction
 st.title(title)
 st.markdown(
     "Predict the *general feeling* in a body of text using [Scikit-Learn]"
     "(https://scikit-learn.org/) models."
 )
-sample_text = st.text_area("Text Input:", max_chars=500)
+text_input = st.text_area("Text Input:", max_chars=500)
 
 
 @st.experimental_memo
-def get_models():
+def get_models() -> list:
+    """Fetch and cache the pre-trained models."""
     return [load_saved_models(MODEL_DIR / source) for source in DATA_SOURCES]
 
 
 @st.cache
-def get_predictions(models, text):
+def get_predictions(models: dict, text: str) -> tuple:
+    """Predict the sentiments in the supplied text.
+
+    Args:
+        models (dict): The vectorizer, and classifier models
+        text (str): Text to analyse.
+
+    Returns:
+        tuple: (Words found in model vocabularies, predicted sentiments).
+    """
     vectorizer = models["vectorizer"]
-    text = vectorizer.transform([text])
-    key_features = vectorizer.inverse_transform(text)
+    transformed_text = vectorizer.transform([text])
+    key_features = vectorizer.inverse_transform(transformed_text)
     predictions = pd.Series(
         {
-            model_name: model.predict(text)[0]
+            model_name: model.predict(transformed_text)[0]
             for model_name, model in models.items()
             if model_name != "vectorizer"
         }
@@ -33,14 +46,28 @@ def get_predictions(models, text):
     return key_features, predictions
 
 
-def dataframe_styler(value):
+def dataframe_styler(value: str) -> str:
+    """Dynamically set font style and color for the results table.
+
+    Args:
+        value (str): {"Positive", "Negative"}.
+
+    Returns:
+        str: CSS style string.
+    """
     base_style = "font-family:serif;font-weight:bold;size:16px;color:"
     if value == "Positive":
         return base_style + "lime;"
     return base_style + "#f22;"
 
 
-def display_predictions(models, text):
+def display_predictions(models: dict, text: str) -> None:
+    """Present the results as a table.
+
+    Args:
+        models (dict): The pre-trained models, and the vectorizer.
+        text (str): Text to analyse.
+    """
     key_features, predictions = get_predictions(models, text)
     styled_predictions = (
         predictions.to_frame(name="Predicted Sentiment")
@@ -61,10 +88,10 @@ def display_predictions(models, text):
 all_models = get_models()
 
 if st.button("Analyse"):
-    if not sample_text:
-        st.warning("Please supply text to analyse")
+    if not text_input:
+        st.warning("Please supply text to analyse.")
     else:
         st.markdown("#### Predictions:")
         for data_source, models in zip(DATA_SOURCES, all_models):
             with st.expander(f"{data_source.title()} Dataset Models:"):
-                display_predictions(models, sample_text)
+                display_predictions(models, text_input)
