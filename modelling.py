@@ -18,23 +18,24 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 
-DATA_SOURCES = ["amazon_cells", "imdb", "yelp"]
+
+DATA_SOURCES = ["software-reviews", "video-reviews"]
 MODEL_DIR = Path("models")
 SEED = 12345
 
 
 models = dict(
     logistic_regression=LogisticRegression(
-        class_weight="balanced", max_iter=350, random_state=SEED
+        class_weight="balanced", solver="sag", random_state=SEED
     ),
     naive_bayes=MultinomialNB(),
     SVC=SVC(class_weight="balanced", random_state=SEED),
 )
 
 parameters = dict(
-    logistic_regression={"C": np.logspace(-1, 4, 10)},
-    naive_bayes={"alpha": np.logspace(-4, 5, 10)},
-    SVC={"C": np.logspace(-1, 4, 10)},
+    logistic_regression={"C": np.logspace(-4, 4, 10)},
+    naive_bayes={"alpha": np.logspace(-4, 4, 10)},
+    SVC={"C": np.logspace(-4, 4, 10)},
 )
 
 
@@ -80,13 +81,13 @@ def fit_and_save_model(
 
 
 def fit_models_on_all_datasets(model_destination: Path) -> None:
-    """Fit and save models for all 3 data sources (Amazon, IMDB and Yelp).
+    """Fit and save models for all data sources.
 
     Args:
         model_destination (Path): The parent directory to store the models.
     """
     for data_source in DATA_SOURCES:
-        dataset = Dataset(f"{data_source}_labelled.txt")
+        dataset = Dataset(f"{data_source}-sample.csv.xz")
         dataset_model_destination = model_destination / data_source
 
         # Ensure model destination exists

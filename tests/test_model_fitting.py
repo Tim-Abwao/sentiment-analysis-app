@@ -13,8 +13,8 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
 
 
-def test_model_fitting_function(tmp_path):
-    dataset = Dataset("yelp_labelled.txt")
+def test_model_fitting_and_saving(tmp_path):
+    dataset = Dataset("software-reviews-sample.csv.xz")
 
     expected_model_destination = tmp_path / dataset.source
     expected_model_destination.mkdir(exist_ok=True)
@@ -42,14 +42,16 @@ def test_model_fitting_and_loading(tmp_path):
             assert model.exists()
 
     # Test model loading
-    yelp_models = load_saved_models(tmp_path / "yelp")
-    assert set(yelp_models.keys()) == {
+    software_reviews_models = load_saved_models(tmp_path / "software-reviews")
+    assert set(software_reviews_models.keys()) == {
         "LogisticRegression",
         "MultinomialNB",
         "SVC",
         "vectorizer",
     }
-    assert isinstance(yelp_models["LogisticRegression"], LogisticRegression)
-    assert isinstance(yelp_models["MultinomialNB"], MultinomialNB)
-    assert isinstance(yelp_models["SVC"], SVC)
-    assert isinstance(yelp_models["vectorizer"], TfidfVectorizer)
+    assert isinstance(
+        software_reviews_models["LogisticRegression"], LogisticRegression
+    )
+    assert isinstance(software_reviews_models["MultinomialNB"], MultinomialNB)
+    assert isinstance(software_reviews_models["SVC"], SVC)
+    assert isinstance(software_reviews_models["vectorizer"], TfidfVectorizer)

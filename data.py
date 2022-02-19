@@ -24,16 +24,13 @@ class Dataset:
 
     def __init__(self, file_name: str, test_size: float = 0.2) -> None:
         self.file_name = file_name
-        self.source = file_name.split("_labelled.txt")[0]
+        self.source = file_name.split("-sample.csv.xz")[0]
         self.test_size = test_size
         self._split()
         self._vectorize_text()
 
-    def _load_file(self, sep: str = "\t") -> pd.DataFrame:
+    def _load_file(self) -> pd.DataFrame:
         """Get data from a text file as a pandas dataframe.
-
-        Args:
-            sep (str, optional): The delimiter in the file. Defaults to "\t".
 
         Returns:
             pandas.core.frame.DataFrame: The file's contents.
@@ -42,9 +39,6 @@ class Dataset:
         return pd.read_csv(
             DATA_DIR / self.file_name,
             dtype={0: "string", 1: "int8"},
-            header=None,
-            names=["text", "label"],
-            sep=sep,
         )
 
     def _split(self) -> None:
@@ -57,9 +51,9 @@ class Dataset:
             self.y_test,
         ) = train_test_split(
             data["text"],
-            data["label"],
+            data["sentiment"],
             test_size=self.test_size,
-            stratify=data["label"],
+            stratify=data["sentiment"],
         )
 
     def _vectorize_text(self) -> None:
