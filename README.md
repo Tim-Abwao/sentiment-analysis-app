@@ -8,29 +8,43 @@ Powered by [Scikit-learn][sklearn] and [Streamlit][streamlit].
 
 [![Screen cast](screencast.gif)][live-app]
 
-The datasets used to train the models are the manually annotated samples from the publication *["From Group to Individual Labels Using Deep Features"][paper]*.
-
 ## Running Locally
 
 1. Download the code, and create a virtual environment:
 
-        git clone https://github.com/Tim-Abwao/sentiment-analysis-app.git
-        cd sentiment-analysis-app
-        python3 -m venv venv
-        source venv/bin/activate
+    ```bash
+    git clone https://github.com/Tim-Abwao/sentiment-analysis-app.git
+    cd sentiment-analysis-app
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
 
 2. Install the required dependencies:
 
-        pip install -U pip
-        pip install -r requirements.txt
+    ```bash
+    pip install -U pip
+    pip install -r requirements.txt
+    ```
 
 3. Launch the streamlit development server:
 
-        streamlit run streamlit_app.py
+    ```bash
+    streamlit run streamlit_app.py
+    ```
+
+## Datasets
+
+The datasets used here are subsets of the [Amazon Customer Reviews][datasets] Dataset.
+
+It is assumed that `star_rating`s of 1 & 2 imply negative reviews, whereas those greater than 3 are positive.
+
+> **NOTE:** The *Bag of Words* model has significant limitations (high dimensionality, poor comprehension of context, etc),.
+>
+>To keep the app within *Streamlit Cloud's* resource limits, the samples used are rather small.
 
 [b-o-w]: https://en.wikipedia.org/wiki/Bag-of-words_model
+[datasets]: https://s3.amazonaws.com/amazon-reviews-pds/tsv/index.txt
 [live-app]: https://share.streamlit.io/tim-abwao/sentiment-analysis-app/main
-[paper]: https://dl.acm.org/doi/10.1145/2783258.2783380 "Dimitrios Kotzias, Misha Denil, Nando de Freitas, and Padhraic Smyth. 2015. From Group to Individual Labels Using Deep Features. In Proceedings of the 21th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '15). Association for Computing Machinery, New York, NY, USA, 597–606."
 [sentiment-analysis]: https://en.wikipedia.org/wiki/Sentiment_analysis
 [sklearn]: https://scikit-learn.org/
 [streamlit]: https://streamlit.io/
