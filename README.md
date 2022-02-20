@@ -36,9 +36,9 @@ Powered by [Scikit-learn][sklearn] and [Streamlit][streamlit].
 
 The datasets used here are subsets of the [Amazon Customer Reviews][datasets] Dataset.
 
-It is assumed that `star_rating`s of 1 & 2 imply negative reviews, whereas those greater than 3 are positive.
+See [datasets](datasets/) for details.
 
-> **NOTE:** The *Bag of Words* model has significant limitations (high dimensionality, poor comprehension of context, etc),.
+> **NOTE:** The *Bag of Words* model has significant limitations (high dimensionality, poor comprehension of context, etc).
 >
 >To keep the app within *Streamlit Cloud's* resource limits, the samples used are rather small.
 

@@ -10,7 +10,7 @@ from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
 
-from data import Dataset
+from data import DATA_DIR, Dataset
 
 logging.basicConfig(
     format="[%(levelname)s %(asctime)s.%(msecs)03d] %(message)s",
@@ -18,8 +18,9 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 
-
-DATA_SOURCES = ["software-reviews", "video-reviews"]
+DATA_SOURCES = [
+    file.name.split("-sample")[0] for file in DATA_DIR.glob("*.csv.xz")
+]
 MODEL_DIR = Path("models")
 SEED = 12345
 
