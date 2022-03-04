@@ -10,8 +10,9 @@ st.set_page_config(page_title=title)
 # Introduction
 st.title(title)
 st.markdown(
-    "Predict the *general feeling* in a body of text using [Scikit-Learn]"
-    "(https://scikit-learn.org/) models."
+    "Predict the *general feeling* in a body of text using the traditional "
+    "[*Bag of Words*](https://en.wikipedia.org/wiki/Bag-of-words_model) "
+    "model, implemented with [Scikit-Learn](https://scikit-learn.org/)."
 )
 text_input = st.text_area("Text Input:", max_chars=500)
 
