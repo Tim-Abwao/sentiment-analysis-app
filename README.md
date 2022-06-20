@@ -38,9 +38,7 @@ The datasets used here are subsets of the [Amazon Customer Reviews][datasets] Da
 
 See [datasets](datasets/) for details.
 
-> **NOTE:** The *Bag of Words* model has significant limitations (high dimensionality, poor comprehension of context, etc).
->
->To keep the app within *Streamlit Cloud's* resource limits, the samples used are rather small.
+> **NOTE:** The *Bag of Words* model has known limitations (high dimensionality, poor comprehension of context, etc). To keep the app within *Streamlit Cloud's* resource limits, the samples used are rather small.
 
 [b-o-w]: https://en.wikipedia.org/wiki/Bag-of-words_model
 [datasets]: https://s3.amazonaws.com/amazon-reviews-pds/tsv/index.txt
