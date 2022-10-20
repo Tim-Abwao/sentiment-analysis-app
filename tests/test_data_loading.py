@@ -2,6 +2,7 @@ import pandas as pd
 from data import DATA_DIR, Dataset
 from pandas.api.types import is_integer_dtype, is_string_dtype
 from pytest import approx
+from scipy.sparse import csr_matrix
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 file = "software-reviews-sample.csv.xz"
@@ -15,7 +16,7 @@ dataset = Dataset(file, test_size=0.3)
 def test_dataset_general_properties():
     assert dataset.file_name == file
     assert dataset.source == "software-reviews"
-    assert dataset.test_size == 0.3
+    assert dataset.TEST_SIZE == 0.3
 
 
 def test_file_loading():
@@ -27,18 +28,9 @@ def test_file_loading():
 
 
 def test_text_vectorization():
-    test_vectorizer = TfidfVectorizer(
-        ngram_range=(1, 2), max_df=0.8, stop_words="english"
-    )
-    X_train_text = test_data["text"].loc[dataset.y_train.index]
-    test_vectorizer.fit_transform(X_train_text)
-
-    sample_text = ["Just some random text"]
-    expected = test_vectorizer.transform(sample_text)
-    actual = dataset.vectorizer.transform(sample_text)
-
-    print(test_vectorizer.vocabulary_)
-    assert actual.data == approx(expected.data)
+    # The document-term matrix (vectorized text) should be a csr_matrix
+    assert isinstance(dataset.X_train, csr_matrix)
+    assert isinstance(dataset.X_test, csr_matrix)
 
 
 def test_data_splitting():
@@ -46,6 +38,6 @@ def test_data_splitting():
     assert hasattr(dataset, "X_test")
     assert hasattr(dataset, "y_train")
     assert hasattr(dataset, "y_test")
-    assert (dataset.y_train.shape[0] / dataset.y_test.shape[0]) == approx(
-        (1 - dataset.test_size) / dataset.test_size
-    )
+    assert len(dataset.y_test) / (
+        len(dataset.y_train) + len(dataset.y_test)
+    ) == approx(0.3)

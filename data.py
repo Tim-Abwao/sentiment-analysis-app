@@ -8,13 +8,19 @@ DATA_DIR = Path("datasets")
 
 
 class Dataset:
-    """Load, partition and vectorize data from a file.
+    """Load, partition and vectorize a file from the sample `datasets`
+    directory.
 
-    The data is expected to contain 2 columns, with the first being the corpus
-    (array of strings), and the second being a binary (2-class-only)
-    sentiment label.
+    There are currently 2 files available:
 
-    The text data is vectorized using the scikit-learn TfidfVectorizer.
+    - software-reviews-sample.csv.xz
+    - video-reviews-sample.csv.xz
+
+    To add more, please follow the instructions in the README file of the
+    `datasets` directory. 
+
+    Once loaded, the file's contents are split into a training and a
+    validation set, then vectorized using the scikit-learn TfidfVectorizer.
 
     Args:
         file_name (str): A file having text data and sentiment labels.
@@ -24,8 +30,8 @@ class Dataset:
 
     def __init__(self, file_name: str, test_size: float = 0.2) -> None:
         self.file_name = file_name
-        self.source = file_name.split("-sample.csv.xz")[0]
-        self.test_size = test_size
+        self.source = file_name.removesuffix("-sample.csv.xz")
+        self.TEST_SIZE = test_size
         self._split()
         self._vectorize_text()
 
@@ -33,7 +39,7 @@ class Dataset:
         """Get data from a text file as a pandas dataframe.
 
         Returns:
-            pandas.core.frame.DataFrame: The file's contents.
+            pandas.DataFrame: The file's contents.
         """
 
         return pd.read_csv(
@@ -52,7 +58,7 @@ class Dataset:
         ) = train_test_split(
             data["text"],
             data["sentiment"],
-            test_size=self.test_size,
+            test_size=self.TEST_SIZE,
             stratify=data["sentiment"],
         )
 
