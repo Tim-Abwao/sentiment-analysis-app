@@ -19,7 +19,8 @@ logging.basicConfig(
 )
 
 DATA_SOURCES = [
-    file.name.split("-sample")[0] for file in DATA_DIR.glob("*.csv.xz")
+    file.name.removesuffix("-sample.csv.xz")
+    for file in DATA_DIR.glob("*.csv.xz")
 ]
 MODEL_DIR = Path("models")
 SEED = 12345
@@ -123,7 +124,10 @@ def load_saved_models(model_path: Path) -> dict:
     Returns:
         dict: The retrieved items.
     """
-    return {file.name[:-3]: joblib.load(file) for file in model_path.iterdir()}
+    return {
+        file.name.removesuffix(".xz"): joblib.load(file)
+        for file in model_path.iterdir()
+    }
 
 
 if __name__ == "__main__":
