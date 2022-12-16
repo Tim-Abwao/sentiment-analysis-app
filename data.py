@@ -17,7 +17,7 @@ class Dataset:
     - video-reviews-sample.csv.xz
 
     To add more, please follow the instructions in the README file of the
-    `datasets` directory. 
+    `datasets` directory.
 
     Once loaded, the file's contents are split into a training and a
     validation set, then vectorized using the scikit-learn TfidfVectorizer.
