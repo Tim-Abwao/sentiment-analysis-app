@@ -17,13 +17,12 @@ st.markdown(
 text_input = st.text_area("Text Input:", max_chars=500)
 
 
-@st.experimental_memo
+@st.cache_resource
 def get_models() -> list:
     """Fetch and cache the pre-trained models."""
     return [load_saved_models(MODEL_DIR / source) for source in DATA_SOURCES]
 
 
-@st.cache
 def get_predictions(models: dict, text: str) -> tuple:
     """Predict the sentiments in the supplied text.
 
