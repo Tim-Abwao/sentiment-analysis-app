@@ -10,6 +10,8 @@ Powered by [Scikit-learn][sklearn] and [Streamlit][streamlit].
 
 ## Running Locally
 
+>**NOTE:** Requires Python 3.10 and above.
+
 1. Download the code, and create a virtual environment:
 
     ```bash
@@ -19,14 +21,14 @@ Powered by [Scikit-learn][sklearn] and [Streamlit][streamlit].
     source venv/bin/activate
     ```
 
-2. Install the required dependencies:
+2. Install dependencies:
 
     ```bash
     pip install -U pip
     pip install -r requirements.txt
     ```
 
-3. Launch the streamlit development server:
+3. Launch the app:
 
     ```bash
     streamlit run streamlit_app.py
@@ -34,9 +36,7 @@ Powered by [Scikit-learn][sklearn] and [Streamlit][streamlit].
 
 ## Datasets
 
-The datasets used here are subsets of the [Amazon Customer Reviews][datasets] Dataset.
-
-See [datasets](datasets/) for details.
+The datasets used here are subsets of the [Amazon Customer Reviews][datasets] Dataset. See [datasets](datasets/) for more details.
 
 > **NOTE:** The *Bag of Words* model has known limitations (high dimensionality, poor comprehension of context, etc). To keep the app within *Streamlit Cloud's* resource limits, the samples used are rather small.
 
