@@ -1,3 +1,5 @@
 [theme]
 primaryColor="navy"
+backgroundColor="#eee"
+secondaryBackgroundColor="#d4d7e0"
 font="serif"
